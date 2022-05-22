@@ -1,13 +1,14 @@
 html {
-  background-color: #b6d1ff;
+  background-color: #000000;
   overflow-x: hidden;
   position: relative;
 }
 
 #app {
-  background-color: #b6d1ff;
+  background-color: #000000;
   font-family: "ShadowsIntoLight-Regular", sans-serif;
   position: relative;
+  overflow-x: hidden;
 }
 
 .icon-group {
@@ -20,10 +21,6 @@ html {
   margin: 0 10px;
   color: #fff !important;
   font-size: 32px;
-}
-
-.nav {
-  background-color: #e9eafe;
 }
 
 .nav-link {
@@ -42,6 +39,20 @@ html {
 
 .header-icon:hover {
   color: #262262;
+}
+
+@media (max-width: 991px) {
+  .nav-item {
+    margin-left: 25px;
+  }
+
+  .nav-link {
+    color: #ffc204 !important;
+  }
+
+  .navbar-collapse {
+    padding-bottom: 8.5rem !important;
+  }
 }
 
 .text {
@@ -69,7 +80,7 @@ html {
 }
 
 .toggle-btn {
-  color: #fff;
+  color: #ffc204 !important;
 }
 
 .title {

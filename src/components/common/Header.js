@@ -23,7 +23,7 @@ const Header = () => {
           data-bs-target="#navbarNav"
           aria-label="Toggle navigation"
         >
-          <MdMenu />
+          <MdMenu className="toggle-btn" />
         </button>
         <div className="navbar-collapse collapse" id="navbarNav">
           <div className="header-end">
