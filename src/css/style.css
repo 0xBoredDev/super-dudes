@@ -37,7 +37,7 @@ html {
 }
 
 .nav-link:hover {
-  color: #fff !important;
+  color: #ffc204 !important;
 }
 
 .header-icon:hover {
@@ -257,7 +257,8 @@ html {
 .footer {
   background-color: #b6d1ff;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
+  margin-top: 40px;
 }
 
 .footer-social {

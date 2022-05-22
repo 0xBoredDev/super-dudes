@@ -202,7 +202,7 @@ function HomePage() {
                   </a>
                 </li>
               </ul>
-              <p className="text">© 2022 Super Dudes, Inc</p>
+              <p className="text">© 2022 Super Dudes NFT</p>
             </div>
           </div>
         </div>
