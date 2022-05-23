@@ -6,6 +6,7 @@ import hero from "../../images/hero-1.gif";
 import hero1bg from "../../images/hero-bg.png";
 import roadmap from "../../images/roadmap.jpg";
 import { FaTwitter, FaDiscord } from "react-icons/fa";
+import Marquee from "react-fast-marquee";
 const hero1BG = {
   backgroundImage: `url(${hero1bg})`,
   marginTop: "-90px",
@@ -136,6 +137,13 @@ function HomePage() {
         >
           Connect Wallet
         </button>
+        <div className="row">
+          <div className="col-sm-12 col-md-8 offset-md-2">
+            <Marquee className="marquee-text" speed={70} gradient={false}>
+              Stay Away... HPMLEE
+            </Marquee>
+          </div>
+        </div>
       </div>
       <div id="about">
         <div className="container">
