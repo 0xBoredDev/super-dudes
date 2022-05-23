@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { connect } from "../../redux/actions/blockchainActions";
 import { fetchData } from "../../redux/actions/dataActions";
 import hero from "../../images/hero-1.gif";
+import mintimg from "../../images/hero-mint.gif";
 import hero1bg from "../../images/hero-bg.png";
 import roadmap from "../../images/roadmap.jpg";
 import { FaTwitter, FaDiscord } from "react-icons/fa";
@@ -124,6 +125,8 @@ function HomePage() {
         <h1 className="primary-title">Super Dudes</h1>
         <img src={hero} className="img-fluid" alt="hero-1" />
         <br />
+        <img src={mintimg} className="img-fluid" alt="mint-img" />
+        <br />
         <br />
         <button
           type="button"
@@ -152,10 +155,10 @@ function HomePage() {
             Super Dudes is a 12,888 piece generative NFT collection made up of
             super heroes. They are the 2nd generation of Super Ordinary Villains
             art collection and the next step in the story of the Super Ordinary
-            World. The villains couldn`t stay untested for the long. The line
-            isn`t clear between good or bad and the battle between villains and
-            heroes is closer than we think. The heroes will unfold the rest of
-            the story to come.
+            World. The villains couldn`t stay untested for long. The line isn`t
+            clear between good or bad and the battle between villains and heroes
+            is closer than we think. The heroes will unfold the rest of the
+            story to come.
           </p>
         </div>
       </div>
