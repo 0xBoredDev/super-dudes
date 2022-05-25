@@ -1,0 +1,18 @@
+{
+  "CONTRACT_ADDRESS": "0x36Df501688985955055A34B6F97Cfd6Cc4967A23",
+  "SCAN_LINK": "https://rinkeby.etherscan.io/address/0x36df501688985955055a34b6f97cfd6cc4967a23",
+  "NETWORK": {
+    "NAME": "Rinkeby",
+    "SYMBOL": "rETH",
+    "ID": 4
+  },
+  "NFT_NAME": "Super Dudes NFT",
+  "SYMBOL": "SD",
+  "MAX_SUPPLY": 12888,
+  "WEI_COST": 10000000000000000,
+  "DISPLAY_COST": 0.01,
+  "GAS_LIMIT": 285000,
+  "MARKETPLACE": "Opeansea",
+  "MARKETPLACE_LINK": "https://testnets.opensea.io/collection/super-dudes-nft-v3",
+  "SHOW_BACKGROUND": true
+}

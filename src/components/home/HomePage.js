@@ -99,7 +99,7 @@ function HomePage() {
   };
 
   const getConfig = async () => {
-    const configResponse = await fetch("../../config/config.json", {
+    const configResponse = await fetch("./config/config.json", {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -109,9 +109,9 @@ function HomePage() {
     SET_CONFIG(config);
   };
 
-  // useEffect(() => {
-  //   getConfig();
-  // }, []);
+  useEffect(() => {
+    getConfig();
+  }, []);
 
   return (
     <div
