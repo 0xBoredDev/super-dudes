@@ -100,6 +100,21 @@ html {
   text-shadow: 5px 5px 0px #3651ff;
 }
 
+.title-number {
+  font-family: "Tanker-Regular", sans-serif;
+  text-align: center;
+  color: #ffc204;
+  font-size: 60px;
+  font-weight: 600;
+  line-height: 1.2em;
+  letter-spacing: 2.4px;
+  -webkit-text-stroke-width: 1px;
+  stroke-width: 1px;
+  -webkit-text-stroke-color: #3651ff;
+  stroke: #3651ff;
+  text-shadow: 5px 5px 0px #3651ff;
+}
+
 .primary-title {
   font-family: "Tanker-Regular", sans-serif;
   text-align: center;
@@ -141,6 +156,20 @@ html {
   padding: 20px;
   margin-bottom: 40px;
   margin-top: 40px;
+}
+
+.button-plusandminus {
+  font-family: "ShadowsIntoLight-Regular", sans-serif;
+  font-size: 30px;
+  font-weight: 600;
+  fill: #262262;
+  color: #262262;
+  background-color: #fff;
+  border-color: #262262;
+  border-style: solid;
+  border-width: 4px;
+  border-radius: 15px;
+  padding: 20px;
 }
 
 .button:disabled {

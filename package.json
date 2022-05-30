@@ -3,6 +3,7 @@
   "description": "",
   "version": "1.0.0",
   "dependencies": {
+    "@alch/alchemy-web3": "^1.4.2",
     "@babel/core": "^7.16.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
     "@popperjs/core": "^2.11.4",
@@ -37,6 +38,8 @@
     "jest": "^27.4.3",
     "jest-resolve": "^27.4.2",
     "jest-watch-typeahead": "^1.0.0",
+    "keccak256": "^1.0.6",
+    "merkletreejs": "^0.2.31",
     "mini-css-extract-plugin": "^2.4.5",
     "os-browserify": "^0.3.0",
     "postcss": "^8.4.4",

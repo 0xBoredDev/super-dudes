@@ -8,12 +8,38 @@ import hero1bg from "../../images/hero-bg.png";
 import roadmap from "../../images/roadmap.jpg";
 import { FaTwitter, FaDiscord } from "react-icons/fa";
 import Marquee from "react-fast-marquee";
+
+import "../common/Spinner.css";
+
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+import { 
+  connectWallet, 
+  getCurrentWalletConnected,
+  getMaxSupply,
+  getTotalSupply,
+  getMaxMintAmountPerTx,
+  getWhitelistMintEnabled,
+  getPaused,
+  getNftPrice,
+  checkIfValidWl,
+  getNoPaidNFT,
+  mintWhitelist,
+  mint,
+  mintParent
+} from "../../utils/interact.js";
+
+
 const hero1BG = {
   backgroundImage: `url(${hero1bg})`,
   marginTop: "-90px",
   backgroundSize: "cover",
   backgroundRepeat: "no-repeat",
 };
+
 
 const truncate = (input, len) =>
   input.length > len ? `${input.substring(0, len)}...` : input;
@@ -24,7 +50,23 @@ function HomePage() {
   const data = useSelector((state) => state.data);
   const [claimingNft, setClaimingNft] = useState(false);
   const [feedback, setFeedback] = useState(`Click buy to mint your NFT.`);
+
+  ///
   const [mintAmount, setMintAmount] = useState(1);
+  const [walletAddress, setWalletAddress] = useState("");
+  const [totalSupply, setTotalSupply] = useState(0);
+  const [maxSupply, setMaxSupply] = useState(0);
+  const [maxMintAmount, setMaxMintAmount] = useState(0);
+  const [whitelistMint, setWhiteListMint] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const [validWhitelist, setValidWhitelist] = useState(false);
+  const [paidNFT, setPaidNFT] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [nftPrice, setNftPrice] = useState(0);
+  const [loadingMint, setLoadingMint] = useState(false);
+
+  ///
+
   const [CONFIG, SET_CONFIG] = useState({
     CONTRACT_ADDRESS: "",
     SCAN_LINK: "",
@@ -86,8 +128,8 @@ function HomePage() {
 
   const incrementMintAmount = () => {
     let newMintAmount = mintAmount + 1;
-    if (newMintAmount > 10) {
-      newMintAmount = 10;
+    if (newMintAmount > maxMintAmount) {
+      newMintAmount = maxMintAmount;
     }
     setMintAmount(newMintAmount);
   };
@@ -109,9 +151,209 @@ function HomePage() {
     SET_CONFIG(config);
   };
 
+  const addWalletListener = () => {
+    if (window.ethereum) {
+      window.ethereum.on("accountsChanged", async (accounts) => {
+        if (accounts.length > 0) {
+          setWalletAddress(accounts[0]);
+        } else {
+          setWalletAddress("");
+          toast.info("🦊 Connect to Metamask using Connect Wallet button.", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+      });
+    }
+  };
+
+  const connectBtnPressed = async () => {
+    const walletResponse = await connectWallet();
+    setWalletAddress(walletResponse.address);
+
+    if(walletResponse.status != ""){
+      toast.info(walletResponse.status, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  };
+
   useEffect(() => {
+
+    const prepare = async () => {
+      const walletResponse = await getCurrentWalletConnected();
+      setWalletAddress(walletResponse.address);
+
+      if(walletResponse.status != ""){
+        toast.info(walletResponse.status, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+
+      setTotalSupply(Number(await getTotalSupply()));
+      setMaxSupply(Number(await getMaxSupply()));
+      setMaxMintAmount(Number(await getMaxMintAmountPerTx()));
+      setWhiteListMint(await getWhitelistMintEnabled());
+      setPaused(await getPaused());
+      setPaidNFT(Number(await getNoPaidNFT()));
+      setNftPrice(Number(await getNftPrice()));
+
+
+      setLoading(false);
+      addWalletListener();
+    };
+
+
+    prepare();
     getConfig();
   }, []);
+
+  useEffect(() => {
+
+    const checkWhielist = async () => {
+      if(walletAddress != ""){
+        const {isValid, proof} = await checkIfValidWl(walletAddress);
+        setValidWhitelist(isValid);
+      }
+    };
+
+
+    checkWhielist();
+  }, [walletAddress]);
+
+  const updateInfo = async () => {
+    setTotalSupply(Number(await getTotalSupply()));
+  };
+
+
+  const whiteListMintBtn = async () => {
+
+    setLoadingMint(true);
+
+    const {status, success} = await mintWhitelist(mintAmount, walletAddress);
+
+    if(status != ""){
+      toast.info(status, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+
+    if(success){
+      await updateInfo();
+    }
+
+    setLoadingMint(false);
+
+  };
+
+  const publicMint = async () => {
+    setLoadingMint(true);
+
+    const {status, success} = await mint(mintAmount, walletAddress);
+
+    if(status != ""){
+      toast.info(status, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+
+    if(success){
+      await updateInfo();
+    }
+
+    setLoadingMint(false);
+
+  };
+
+  const claimParentBtn = async () => {
+    setLoadingMint(true);
+
+    const { status, success } = await mintParent(mintAmount, walletAddress);
+
+    if(status != ""){
+      toast.info(status, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+
+    if(success){
+      await updateInfo();
+    }
+
+    setLoadingMint(false);
+  };
+
+
+  const MintControl = () => {
+    return (
+      <div className="row justify-content-md-center">
+        <div className="col col-lg-2">
+          <button
+            type="button"
+            className="button-plusandminus"
+            style={{marginRight: '70px'}}
+            onClick={(e) => {
+              e.preventDefault();
+              decrementMintAmount();
+            }}
+          >
+            -
+          </button>
+        </div>
+        <div className="col-md-auto">
+            <p className="title-number">{mintAmount}</p>
+        </div>
+        <div className="col col-lg-2">
+          <button
+            type="button"
+            className="button-plusandminus"
+            style={{marginLeft: '70px'}}
+            onClick={(e) => {
+              e.preventDefault();
+              incrementMintAmount();
+            }}
+          >
+            +
+          </button>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div
@@ -128,18 +370,99 @@ function HomePage() {
         <img src={mintimg} className="img-fluid" alt="mint-img" />
         <br />
         <br />
-        <button
-          type="button"
-          className="button disabled"
-          disabled
-          onClick={(e) => {
-            e.preventDefault();
-            dispatch(connect());
-            getData();
-          }}
-        >
-          Connect Wallet
-        </button>
+
+        <ToastContainer />
+
+        
+
+        {loading ? <div className="loader"></div> : <>
+
+          {/* <p className="title-number mb-3">{totalSupply} / {maxSupply}</p> */}
+          <p className="title-number mb-3">{totalSupply} / {4000}</p>
+
+          {walletAddress.length > 0 ?
+          <>
+            <p className="text m-0 mb-2">Connected: {`${String(walletAddress).substring(0, 6)}...${String(walletAddress).substring(38)}`}</p>
+            <p className="text m-0 mb-5">{`${mintAmount} Super Dudes Cost ${nftPrice * mintAmount} ETH + GAS`}</p>
+
+            {(() => {
+
+              if(!paused){
+                return(
+                  <>
+                    {MintControl()}
+                    {loadingMint ? <div className="loader" style={{height: '40px', width: '40px'}}></div>
+                    :
+                    <button
+                      type="button"
+                      className="button"
+                      // disabled
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if(totalSupply >= paidNFT){
+                          claimParentBtn();
+                        }else{
+                          publicMint();
+                        }
+                      }}
+                    >
+                      {totalSupply >= paidNFT ? 'Claim Parent' : 'Mint'}
+                    </button>
+                    }
+                  </>
+                )
+              }else if(whitelistMint && validWhitelist){
+                return (
+                  <>
+                    {MintControl()}
+                    {loadingMint ? <div className="loader" style={{height: '40px', width: '40px'}}></div> 
+                    :
+                    <button
+                      type="button"
+                      className="button"
+                      // disabled
+                      onClick={(e) => {
+                        e.preventDefault();
+                        whiteListMintBtn();
+                      }}
+                    >
+                      Mint WhiteList
+                    </button>
+                    }
+                    
+                  </>
+                )
+              }else if(whitelistMint && !validWhitelist){
+                return (
+                  <>
+                    <p className="text m-0 mb-5">Sorry, you&#8242;re not whitelisted!</p>
+                  </>
+                )
+              }else{
+                return (
+                  <>
+                    <p className="text m-0 mb-5">Contract is paused!</p>
+                  </>
+                )
+              }
+            })()}
+            
+          </>
+          :  
+            <button
+              type="button"
+              className="button"
+              onClick={(e) => {
+                e.preventDefault();
+                connectBtnPressed();
+              }}
+            >
+              Connect Wallet
+            </button>
+          }
+      </>}
+
+
         <div className="row">
           <div className="col-sm-12 col-md-8 offset-md-2">
             <Marquee className="marquee-text" speed={70} gradient={false}>
