@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { connect } from "../../redux/actions/blockchainActions";
 import { fetchData } from "../../redux/actions/dataActions";
+import Timer from "../common/Timer";
 import hero from "../../images/hero-1.gif";
 import mintimg from "../../images/hero-mint.gif";
 import hero1bg from "../../images/hero-bg.png";
@@ -353,10 +354,7 @@ function HomePage() {
         <h1 className="primary-title">Super Dudes</h1>
         <img src={hero} className="img-fluid" alt="hero-1" />
         <br />
-        <h3 className="title2">Presale mint is now live!</h3>
-        {/* <img src={mintimg} className="img-fluid" alt="mint-img" /> */}
-        <br />
-        <br />
+        <Timer></Timer>
 
         <ToastContainer />
 

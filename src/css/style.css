@@ -64,6 +64,15 @@ html {
   letter-spacing: 0.5px;
 }
 
+.timer {
+  color: #262262;
+  font-family: "ShadowsIntoLight-Regular", sans-serif;
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.2em;
+  letter-spacing: 0.5px;
+}
+
 .header-start {
   justify-content: flex-start;
   margin-right: auto;
