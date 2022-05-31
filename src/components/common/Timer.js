@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Countdown from "react-countdown";
+import moment from "moment-timezone";
 
 function Timer() {
+  var newYork = moment.tz("2022-05-31T19:00:00", "America/New_York");
   const Completed = () => <h1 className="title2">Public mint is now live!</h1>;
   const renderer = ({ hours, minutes, seconds, completed }) => {
     if (completed) {
@@ -20,7 +22,7 @@ function Timer() {
   };
   return (
     <div>
-      <Countdown date={"2022-05-31T19:00:00"} renderer={renderer}></Countdown>
+      <Countdown date={newYork} renderer={renderer}></Countdown>
     </div>
   );
 }
