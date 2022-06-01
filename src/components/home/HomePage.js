@@ -363,9 +363,9 @@ function HomePage() {
         ) : (
           <>
             {/* <p className="title-number mb-3">{totalSupply} / {maxSupply}</p> */}
-            <p className="title-number mb-3">
+            {/* <p className="title-number mb-3">
               {totalSupply} / {4000}
-            </p>
+            </p> */}
 
             {walletAddress.length > 0 ? (
               <>
