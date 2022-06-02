@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { connect } from "../../redux/actions/blockchainActions";
 import { fetchData } from "../../redux/actions/dataActions";
-import Timer from "../common/Timer";
 import hero from "../../images/hero-1.gif";
 import mintimg from "../../images/hero-mint.gif";
 import hero1bg from "../../images/hero-bg.png";
@@ -18,17 +17,18 @@ import "react-toastify/dist/ReactToastify.css";
 import {
   connectWallet,
   getCurrentWalletConnected,
-  getMaxSupply,
-  getTotalSupply,
-  getMaxMintAmountPerTx,
-  getWhitelistMintEnabled,
+  // getMaxSupply,
+  // getTotalSupply,
+  // getMaxMintAmountPerTx,
+  // getWhitelistMintEnabled,
   getPaused,
-  getNftPrice,
-  checkIfValidWl,
-  getNoPaidNFT,
-  mintWhitelist,
-  mint,
-  mintParent,
+  redeemToken,
+  // getNftPrice,
+  // checkIfValidWl,
+  // getNoPaidNFT,
+  // mintWhitelist,
+  // mint,
+  // mintParent
 } from "../../utils/interact.js";
 
 const hero1BG = {
@@ -203,13 +203,13 @@ function HomePage() {
         });
       }
 
-      setTotalSupply(Number(await getTotalSupply()));
-      setMaxSupply(Number(await getMaxSupply()));
-      setMaxMintAmount(Number(await getMaxMintAmountPerTx()));
-      setWhiteListMint(await getWhitelistMintEnabled());
+      // setTotalSupply(Number(await getTotalSupply()));
+      // setMaxSupply(Number(await getMaxSupply()));
+      // setMaxMintAmount(Number(await getMaxMintAmountPerTx()));
+      // setWhiteListMint(await getWhitelistMintEnabled());
       setPaused(await getPaused());
-      setPaidNFT(Number(await getNoPaidNFT()));
-      setNftPrice(Number(await getNftPrice()));
+      // setPaidNFT(Number(await getNoPaidNFT()));
+      // setNftPrice(Number(await getNftPrice()));
 
       setLoading(false);
       addWalletListener();
@@ -219,73 +219,86 @@ function HomePage() {
     getConfig();
   }, []);
 
-  useEffect(() => {
-    const checkWhielist = async () => {
-      if (walletAddress != "") {
-        const { isValid, proof } = await checkIfValidWl(walletAddress);
-        setValidWhitelist(isValid);
-      }
-    };
+  // useEffect(() => {
 
-    checkWhielist();
-  }, [walletAddress]);
+  //   const checkWhielist = async () => {
+  //     if(walletAddress != ""){
+  //       const {isValid, proof} = await checkIfValidWl(walletAddress);
+  //       setValidWhitelist(isValid);
+  //     }
+  //   };
 
-  const updateInfo = async () => {
-    setTotalSupply(Number(await getTotalSupply()));
-  };
+  //   checkWhielist();
+  // }, [walletAddress]);
+
+  // const updateInfo = async () => {
+  //   setTotalSupply(Number(await getTotalSupply()));
+  // };
 
   const whiteListMintBtn = async () => {
-    setLoadingMint(true);
-
-    const { status, success } = await mintWhitelist(mintAmount, walletAddress);
-
-    if (status != "") {
-      toast.info(status, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    }
-
-    if (success) {
-      await updateInfo();
-    }
-
-    setLoadingMint(false);
+    // setLoadingMint(true);
+    // const {status, success} = await mintWhitelist(mintAmount, walletAddress);
+    // if(status != ""){
+    //   toast.info(status, {
+    //     position: "top-right",
+    //     autoClose: 5000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //   });
+    // }
+    // if(success){
+    //   await updateInfo();
+    // }
+    // setLoadingMint(false);
   };
 
   const publicMint = async () => {
-    setLoadingMint(true);
-
-    const { status, success } = await mint(mintAmount, walletAddress);
-
-    if (status != "") {
-      toast.info(status, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    }
-
-    if (success) {
-      await updateInfo();
-    }
-
-    setLoadingMint(false);
+    // setLoadingMint(true);
+    // const {status, success} = await mint(mintAmount, walletAddress);
+    // if(status != ""){
+    //   toast.info(status, {
+    //     position: "top-right",
+    //     autoClose: 5000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //   });
+    // }
+    // if(success){
+    //   await updateInfo();
+    // }
+    // setLoadingMint(false);
   };
 
   const claimParentBtn = async () => {
+    // setLoadingMint(true);
+    // const { status, success } = await mintParent(mintAmount, walletAddress);
+    // if(status != ""){
+    //   toast.info(status, {
+    //     position: "top-right",
+    //     autoClose: 5000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //   });
+    // }
+    // if(success){
+    //   await updateInfo();
+    // }
+    // setLoadingMint(false);
+  };
+
+  const redeem = async () => {
     setLoadingMint(true);
 
-    const { status, success } = await mintParent(mintAmount, walletAddress);
+    const { status, success } = await redeemToken(walletAddress);
 
     if (status != "") {
       toast.info(status, {
@@ -297,10 +310,6 @@ function HomePage() {
         draggable: true,
         progress: undefined,
       });
-    }
-
-    if (success) {
-      await updateInfo();
     }
 
     setLoadingMint(false);
@@ -354,7 +363,9 @@ function HomePage() {
         <h1 className="primary-title">Super Dudes</h1>
         <img src={hero} className="img-fluid" alt="hero-1" />
         <br />
-        <Timer></Timer>
+        {/* <img src={mintimg} className="img-fluid" alt="mint-img" /> */}
+        <br />
+        <br />
 
         <ToastContainer />
 
@@ -363,9 +374,7 @@ function HomePage() {
         ) : (
           <>
             {/* <p className="title-number mb-3">{totalSupply} / {maxSupply}</p> */}
-            {/* <p className="title-number mb-3">
-              {totalSupply} / {4000}
-            </p> */}
+            {/* <p className="title-number mb-3">{totalSupply} / {4000}</p> */}
 
             {walletAddress.length > 0 ? (
               <>
@@ -375,15 +384,13 @@ function HomePage() {
                     walletAddress
                   ).substring(38)}`}
                 </p>
-                <p className="text m-0 mb-5">{`${mintAmount} Super Dudes Cost ${
-                  nftPrice * mintAmount
-                } ETH + GAS`}</p>
+                {/* <p className="text m-0 mb-5">{`${mintAmount} Super Dudes Cost ${nftPrice * mintAmount} ETH + GAS`}</p> */}
 
                 {(() => {
                   if (!paused) {
                     return (
                       <>
-                        {MintControl()}
+                        {/* {MintControl()} */}
                         {loadingMint ? (
                           <div
                             className="loader"
@@ -396,50 +403,47 @@ function HomePage() {
                             // disabled
                             onClick={(e) => {
                               e.preventDefault();
-                              if (totalSupply >= paidNFT) {
-                                claimParentBtn();
-                              } else {
-                                publicMint();
-                              }
+                              redeem();
+                              // if(totalSupply >= paidNFT){
+                              //   claimParentBtn();
+                              // }else{
+                              //   publicMint();
+                              // }
                             }}
                           >
-                            {totalSupply >= paidNFT ? "Claim Parent" : "Mint"}
+                            {/* {totalSupply >= paidNFT ? 'Claim Parent' : 'Mint'} */}
+                            Redeem
                           </button>
                         )}
                       </>
                     );
-                  } else if (whitelistMint && validWhitelist) {
-                    return (
-                      <>
-                        {MintControl()}
-                        {loadingMint ? (
-                          <div
-                            className="loader"
-                            style={{ height: "40px", width: "40px" }}
-                          ></div>
-                        ) : (
-                          <button
-                            type="button"
-                            className="button"
-                            // disabled
-                            onClick={(e) => {
-                              e.preventDefault();
-                              whiteListMintBtn();
-                            }}
-                          >
-                            Mint WhiteList
-                          </button>
-                        )}
-                      </>
-                    );
-                  } else if (whitelistMint && !validWhitelist) {
-                    return (
-                      <>
-                        <p className="text m-0 mb-5">
-                          Sorry, you&#8242;re not whitelisted!
-                        </p>
-                      </>
-                    );
+                    // }else if(whitelistMint && validWhitelist){
+                    //   return (
+                    //     <>
+                    //       {MintControl()}
+                    //       {loadingMint ? <div className="loader" style={{height: '40px', width: '40px'}}></div>
+                    //       :
+                    //       <button
+                    //         type="button"
+                    //         className="button"
+                    //         // disabled
+                    //         onClick={(e) => {
+                    //           e.preventDefault();
+                    //           whiteListMintBtn();
+                    //         }}
+                    //       >
+                    //         Mint WhiteList
+                    //       </button>
+                    //       }
+
+                    //     </>
+                    //   )
+                    // }else if(whitelistMint && !validWhitelist){
+                    //   return (
+                    //     <>
+                    //       <p className="text m-0 mb-5">Sorry, you&#8242;re not whitelisted!</p>
+                    //     </>
+                    //   )
                   } else {
                     return (
                       <>
