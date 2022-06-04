@@ -8,6 +8,8 @@ import hero1bg from "../../images/hero-bg.png";
 import roadmap from "../../images/roadmap.jpg";
 import { FaTwitter, FaDiscord } from "react-icons/fa";
 import Marquee from "react-fast-marquee";
+import Countdown from "react-countdown";
+import moment from "moment-timezone";
 
 import "../common/Spinner.css";
 
@@ -62,7 +64,93 @@ function HomePage() {
   const [nftPrice, setNftPrice] = useState(0);
   const [loadingMint, setLoadingMint] = useState(false);
 
-  ///
+  const estTime = moment.tz("2022-06-04T18:00:00", "America/New_York");
+  const Completed = () => <h1 className="title2"></h1>;
+  const renderer = ({ hours, minutes, seconds, completed }) => {
+    if (completed) {
+      return <Completed />;
+    } else {
+      return (
+        <div>
+          <h1 className="title2">Public mint is now live!</h1>
+          <p className="text m-0 mb-2">
+            Connected:{" "}
+            {`${String(walletAddress).substring(0, 6)}...${String(
+              walletAddress
+            ).substring(38)}`}
+          </p>
+          {/* <p className="text m-0 mb-5">{`${mintAmount} Super Dudes Cost ${nftPrice * mintAmount} ETH + GAS`}</p> */}
+
+          {(() => {
+            if (!paused) {
+              return (
+                <>
+                  {/* {MintControl()} */}
+                  {loadingMint ? (
+                    <div
+                      className="loader"
+                      style={{ height: "40px", width: "40px" }}
+                    ></div>
+                  ) : (
+                    <button
+                      type="button"
+                      className="button"
+                      // disabled
+                      onClick={(e) => {
+                        e.preventDefault();
+                        redeem();
+                        // if(totalSupply >= paidNFT){
+                        //   claimParentBtn();
+                        // }else{
+                        //   publicMint();
+                        // }
+                      }}
+                    >
+                      {/* {totalSupply >= paidNFT ? 'Claim Parent' : 'Mint'} */}
+                      Redeem
+                    </button>
+                  )}
+                </>
+              );
+              // }else if(whitelistMint && validWhitelist){
+              //   return (
+              //     <>
+              //       {MintControl()}
+              //       {loadingMint ? <div className="loader" style={{height: '40px', width: '40px'}}></div>
+              //       :
+              //       <button
+              //         type="button"
+              //         className="button"
+              //         // disabled
+              //         onClick={(e) => {
+              //           e.preventDefault();
+              //           whiteListMintBtn();
+              //         }}
+              //       >
+              //         Mint WhiteList
+              //       </button>
+              //       }
+
+              //     </>
+              //   )
+              // }else if(whitelistMint && !validWhitelist){
+              //   return (
+              //     <>
+              //       <p className="text m-0 mb-5">Sorry, you&#8242;re not whitelisted!</p>
+              //     </>
+              //   )
+            } else {
+              return (
+                <>
+                  <p className="text m-0 mb-5">Contract is paused!</p>
+                </>
+              );
+            }
+          })()}
+        </div>
+      );
+    }
+  };
 
   const [CONFIG, SET_CONFIG] = useState({
     CONTRACT_ADDRESS: "",
@@ -377,82 +465,7 @@ function HomePage() {
             {/* <p className="title-number mb-3">{totalSupply} / {4000}</p> */}
 
             {walletAddress.length > 0 ? (
-              <>
-                <p className="text m-0 mb-2">
-                  Connected:{" "}
-                  {`${String(walletAddress).substring(0, 6)}...${String(
-                    walletAddress
-                  ).substring(38)}`}
-                </p>
-                {/* <p className="text m-0 mb-5">{`${mintAmount} Super Dudes Cost ${nftPrice * mintAmount} ETH + GAS`}</p> */}
-
-                {(() => {
-                  if (!paused) {
-                    return (
-                      <>
-                        {/* {MintControl()} */}
-                        {loadingMint ? (
-                          <div
-                            className="loader"
-                            style={{ height: "40px", width: "40px" }}
-                          ></div>
-                        ) : (
-                          <button
-                            type="button"
-                            className="button"
-                            // disabled
-                            onClick={(e) => {
-                              e.preventDefault();
-                              redeem();
-                              // if(totalSupply >= paidNFT){
-                              //   claimParentBtn();
-                              // }else{
-                              //   publicMint();
-                              // }
-                            }}
-                          >
-                            {/* {totalSupply >= paidNFT ? 'Claim Parent' : 'Mint'} */}
-                            Redeem
-                          </button>
-                        )}
-                      </>
-                    );
-                    // }else if(whitelistMint && validWhitelist){
-                    //   return (
-                    //     <>
-                    //       {MintControl()}
-                    //       {loadingMint ? <div className="loader" style={{height: '40px', width: '40px'}}></div>
-                    //       :
-                    //       <button
-                    //         type="button"
-                    //         className="button"
-                    //         // disabled
-                    //         onClick={(e) => {
-                    //           e.preventDefault();
-                    //           whiteListMintBtn();
-                    //         }}
-                    //       >
-                    //         Mint WhiteList
-                    //       </button>
-                    //       }
-
-                    //     </>
-                    //   )
-                    // }else if(whitelistMint && !validWhitelist){
-                    //   return (
-                    //     <>
-                    //       <p className="text m-0 mb-5">Sorry, you&#8242;re not whitelisted!</p>
-                    //     </>
-                    //   )
-                  } else {
-                    return (
-                      <>
-                        <p className="text m-0 mb-5">Contract is paused!</p>
-                      </>
-                    );
-                  }
-                })()}
-              </>
+              <Countdown date={estTime} renderer={renderer}></Countdown>
             ) : (
               <button
                 type="button"
