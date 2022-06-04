@@ -493,9 +493,9 @@ function HomePage() {
         <div className="container">
           <h1 className="title">About Us</h1>
           <p className="text m-0">
-            Super Dudes is a 12,888 piece generative NFT collection made up of
-            super heroes. They are the 2nd generation of Super Ordinary Villains
-            art collection and the next step in the story of the Super Ordinary
+            Super Dudes is a generative NFT collection made up of super heroes.
+            They are the 2nd generation of Super Ordinary Villains art
+            collection and the next step in the story of the Super Ordinary
             World. The villains couldn`t stay untested for long. The line isn`t
             clear between good or bad and the battle between villains and heroes
             is closer than we think. The heroes will unfold the rest of the
